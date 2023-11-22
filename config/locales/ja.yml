@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    attributes:
+      question:
+        title: タイトル
+        description: 説明
+        name: 類似語

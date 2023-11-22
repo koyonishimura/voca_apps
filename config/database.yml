@@ -1,0 +1,27 @@
+default: &default
+  # adapter: sqlite3 変更
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  encoding: utf8 # 追加
+  username: asnica2022 # 追加
+  password: asnica # 追加
+  host: localhost # 追加
+
+development:
+  <<: *default
+  # database: db/development.sqlite3 変更
+  database: voca_development
+
+test:
+  <<: *default
+  # database: db/test.sqlite3 変更
+  database: voca_test
+
+# Herokuデプロイ時に再度見直す
+production:
+  <<: *default
+  # database: db/production.sqlite3 変更
+  database: voca_production
+  username: MyApp # 追加
+  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %> # 追加

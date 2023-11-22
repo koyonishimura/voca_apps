@@ -1,0 +1,15 @@
+<h1>MainMenu</h1>
+<a>単語タグマスタ</a>
+<br>
+<%= link_to "単語マスタ", questions_path %>
+<br>
+<%= link_to "単語帳", question_books_path %>
+<br>
+<a>ランキング</a>
+<br>
+<a>ランキング</a>
+<br>
+<a>ユーザー編集</a>
+<br>
+<%= link_to "ログアウト", logout_path,
+                                       data: { "turbo-method": :delete } %>

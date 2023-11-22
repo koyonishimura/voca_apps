@@ -1,0 +1,27 @@
+<h1>編集</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_with(model: @question) do |f| %>
+        <%= render 'shared/error_messages' %>
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form-control' %>
+
+      <%= f.label :description %>
+      <%= f.text_area :description, class: 'form-control' %>
+
+      <%#= f.label :name %>
+      <%#= f.text_field :name, class: 'form-control' %>
+      <div class="similar_word_fields">
+        <%= f.fields_for :similar_words do |smilar_word| %>
+          <%= render 'similar_word_fields', :f => smilar_word %>
+        <% end %>
+      </div>
+      <%= link_to_add_association '類似語の追加', f, :similar_words, class: 'btn btn-success', data: {association_insertion_node: ".similar_word_fields", association_insertion_method: 'append' } %>
+
+      <%= f.submit "更新する", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+
+
+<%= link_to "一覧へ戻る", questions_path %>

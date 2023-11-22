@@ -1,0 +1,93 @@
+ <p>第<%= @work_book_number %>問（全10問）</p>
+ <p>問題：<%= @work_book.question.title %>の意味は？</p>
+ <p>［類似語］</p>
+ <% @work_book.question.similar_words.each do |similar_word| %>
+    <%= similar_word.name %>
+<% end %>   
+ <p>解答</p>
+ <%= form_with(model: @work_book, local: false, id: "work_book_form") do |form| %>
+    <%= hidden_field_tag :number, @work_book_number%>
+    <%= hidden_field_tag :mode, "next" %>
+    <% questions = [
+      { id: @work_book.question.id, description: @work_book.question.description },
+      { id: @work_book.two_question.id, description: @work_book.two_question.description },
+      { id: @work_book.three_question.id, description: @work_book.three_question.description }
+    ]
+
+   # Shuffle the pairs
+   shuffled_questions = questions.shuffle
+%>
+
+<% shuffled_questions.each do |question| %>
+  <div class="radio-group">
+    <%= form.radio_button(:answer, question[:id]) %>
+    <%= form.label(:description, question[:description]) %>
+  </div>
+<% end %>
+
+
+
+
+    <div class="btn-row">
+        <% if @work_book_number > 1 %>
+            <%= form.submit "前の問題へ", class: "btn btn-small btn-prev", id: "prev" %>
+        <% end %>
+        
+        <% if @work_book_number < 10 %>
+            <%= form.submit "次の問題へ", class: "btn btn-small btn-next", id: "next" %>
+        <% else %>
+            <%= form.submit "採点をする", class: "btn btn-small btn-next", id: "next" %>
+        <% end %>
+    </div>
+
+  <% end %>  
+
+  <%= link_to "問題一覧へ", question_test_user_answer_path %>
+
+  <script>
+  $(document).ready(function() {
+
+  $('#next').click(function(e) {
+    e.preventDefault(); // 通常のフォーム送信を防ぐ
+    var formData = $('form#work_book_form').serialize(); // フォームデータを取得
+    var csrfToken = $('meta[name="csrf-token"]').attr('content'); // CSRFトークンを取得
+    $.ajax({
+      url: $('form#work_book_form').attr('action'),
+      type: 'PATCH', // もしくは適切なHTTPメソッド
+      data: formData,
+      headers: {
+        'X-CSRF-Token': csrfToken // ヘッダにCSRFトークンを含める
+      },
+      success: function(data) {
+      // フォームを更新する処理
+      // $('#work_book_form').html(data); // フォームを新しいビューで置き換える
+    },
+      error: function() {
+        // エラー時の処理
+      }
+    });
+  });
+
+  $('#prev').click(function(e) {
+    e.preventDefault(); // 通常のフォーム送信を防ぐ
+    $("#mode").val("prev");
+    var formData = $('form#work_book_form').serialize(); // フォームデータを取得
+    var csrfToken = $('meta[name="csrf-token"]').attr('content'); // CSRFトークンを取得
+    $.ajax({
+      url: $('form#work_book_form').attr('action'),
+      type: 'PATCH', // もしくは適切なHTTPメソッド
+      data: formData,
+      headers: {
+        'X-CSRF-Token': csrfToken // ヘッダにCSRFトークンを含める
+      },
+      success: function(data) {
+      // フォームを更新する処理
+      // $('#work_book_form').html(data); // フォームを新しいビューで置き換える
+    },
+      error: function() {
+        // エラー時の処理
+      }
+    });
+  });
+});
+  </script>

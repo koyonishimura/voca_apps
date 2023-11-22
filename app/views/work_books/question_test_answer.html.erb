@@ -1,0 +1,41 @@
+<h1>単語帳</h1>
+
+<table class="answer">
+    <tr>
+        <th style="width: 40%;">問題</th>
+        <th style="width: 30%;">回答</th>
+        <th style="width: 30%;">正解・不正解</th>
+    </tr>
+  <% @work_books.each do |work_book| %>
+    <tr>
+        <td><%= work_book.question.title %>の意味は？</td>
+        <td>
+            <% if work_book.answer.present? %>
+                <%= Question.find(work_book.answer).description %>
+            <% else %>
+                未回答
+            <% end %>
+        </td>
+        <td>
+
+            <% if work_book.answer.to_i == work_book.question_id %>
+                正解
+            <% else %>
+                不正解
+            <% end %>
+        </td>
+    </tr>
+  <% end %>  
+</table>
+
+<% correct_count = 0 %>
+
+<% @work_books.each do |work_book| %>
+  <% if work_book.answer.to_i == work_book.question_id %>
+    <% correct_count += 1 %>
+  <% end %>
+<% end %>
+<br>
+<p>得点 <%= correct_count %>/10</p>
+<br>
+<%= link_to "ランキングへ", ranking_path(question_book_id:@question_book.id) %>

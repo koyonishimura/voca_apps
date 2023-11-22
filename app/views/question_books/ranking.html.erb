@@ -1,0 +1,28 @@
+<h1>ランキング</h1>
+<p>お疲れ様でした！</p>
+<% total_score = @question_books.find_by(id: params[:question_book_id]).score.to_i %>
+<% accuracy = (total_score / 10.0) * 100 %>
+<p>あなたの成績は、10問中　<%= total_score %>問正解　正答率<%= accuracy.round(2) %>％で位でした</p>
+
+<table class="ranking">
+    <tr>
+        <th style="width: 40%;">順位</th>
+        <th style="width: 30%;">名前</th>
+        <th style="width: 30%;">正答率</th>
+    </tr>
+    <% ranked_question_books = @question_books.order('score DESC NULLS LAST') %>
+    <% ranked_question_books.each_with_index do |question_book, index| %>
+        
+        <tr>
+        <td><%= index + 1 %></td>
+        <td>
+            <% if question_book.user.present? %>
+            <%= question_book.user.name %>
+            <% else %>
+            ユーザー情報がありません
+            <% end %>
+        </td>
+        <td><%= (question_book.score.to_f / 10 * 100).round(2) %>%</td>
+        </tr>
+    <% end %>
+</table>

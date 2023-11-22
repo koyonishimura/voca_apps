@@ -1,0 +1,61 @@
+<style>
+  table {
+    background-color: #cdefff;
+    width: 100%;
+    text-align: center;
+  }
+
+  th {
+    background-color: #00e2cf;
+    width: 100px;
+  }
+
+  table th,
+  table td {
+    padding: 10px;
+  }
+
+  .actions {
+    text-align: center;
+  }
+</style>
+
+<h1>単語帳マスタ</h1>
+
+  <div class="search_form">
+    <%= form_with url: questions_path, local: true, method: :get do |f| %>
+      <%= f.text_field :word %>
+      <%= f.select :range, options_for_select([['タイトル'], ['意味'], ['類似語']]) %>
+      <%= f.select :search, options_for_select([["完全一致","perfect_match"], ["前方一致","forward_match"],  ["後方一致","backward_match"], ["部分一致","partial_match"]]) %>
+      <%= f.submit "検索", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+<%= link_to "新規登録", new_question_path %>
+<%= link_to "csvで出力する",questions_path(format: :csv) %>
+<table border="1">
+  <tr>
+    <th>id</th>
+    <th>タイトル</th>
+    <th>説明</th>
+    <th>類似語</th>
+    <th>アクション</th> <!-- Add a new column for actions -->
+  </tr>
+  <% @questions.each do |question| %>
+    <tr>
+      <td><%= question.id %></td>
+      <td><%= question.title %></td>
+      <td><%= question.description %></td>
+      <td><% question.similar_words.each do |similar_word| %>
+        <%= similar_word.name %>
+        <br>
+      <% end %>
+      </td>
+      <td class="actions">
+        <%= link_to "編集", edit_question_path(id: question.id) %>
+        <%= link_to "削除", question, data: {"turbo-method": :delete, turbo_confirm: "本当に削除しますか?" } %>
+      </td>
+    </tr>
+  <% end %>
+
+</table>
