@@ -16,11 +16,11 @@ class User < ApplicationRecord
       UserMailer.account_activation(self).deliver_now
     end
 
-    private
+
      # メールアドレスをすべて小文字にする
      def downcase_email
       self.email = email.downcase
-    end
+     end
 
     # 有効化トークンとダイジェストを作成および代入する
     def create_activation_digest
@@ -28,16 +28,15 @@ class User < ApplicationRecord
       self.activation_digest = User.digest(activation_token)
     end
 
-    class << self
     # 渡された文字列のハッシュ値を返す
-    def digest(string)
+    def User.digest(string)
       cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                     BCrypt::Engine.cost
       BCrypt::Password.create(string, cost: cost)
     end
   
     # ランダムなトークンを返す
-    def new_token
+    def User.new_token
       SecureRandom.urlsafe_base64
     end
 
@@ -63,8 +62,10 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago
   end
 
+  def forget
+    update_attribute(:remember_digest, nil)
+  end
 
-  private
 
     # 永続的セッションのためにユーザーをデータベースに記憶する
     def remember
@@ -85,9 +86,4 @@ class User < ApplicationRecord
         BCrypt::Password.new(remember_digest).is_password?(remember_token)
     end
 
-    # ユーザーのログイン情報を破棄する
-    def forget
-        update_attribute(:remember_digest, nil)
-    end
-  end
 end

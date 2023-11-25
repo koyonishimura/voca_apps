@@ -17,7 +17,16 @@
           <%= render 'similar_word_fields', :f => smilar_word %>
         <% end %>
       </div>
+
       <%= link_to_add_association '類似語の追加', f, :similar_words, class: 'btn btn-success', data: {association_insertion_node: ".similar_word_fields", association_insertion_method: 'append' } %>
+
+      <% Tag.all.each do |tag| %>
+        <div>
+          <%= check_box_tag "question[tag_ids][]", tag.id, @question.tag_ids.include?(tag.id), id: dom_id(tag) %>
+          <%= label_tag dom_id(tag), tag.name %>
+        </div>
+      <% end %>
+
       <%= f.submit "作成する", class: "btn btn-primary" %>
 
     <% end %>

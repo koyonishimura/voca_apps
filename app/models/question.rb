@@ -6,7 +6,7 @@ class Question < ApplicationRecord
     has_many :similar_words, dependent: :destroy
     has_many :work_books
     has_many :question_tags
-    belongs_to :question_tags
+    has_many :tags, through: :question_tags
     accepts_nested_attributes_for :similar_words, reject_if: :all_blank, allow_destroy: true
 
     def self.title_looks(search, word)

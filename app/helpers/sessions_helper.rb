@@ -56,11 +56,6 @@ end
       @current_user = nil
     end
 
-    # ユーザーのログイン情報を破棄する
-    def forget
-        update_attribute(:remember_digest, nil)
-    end
-
      # アクセスしようとしたURLを保存する
     def store_location
         session[:forwarding_url] = request.original_url if request.get?

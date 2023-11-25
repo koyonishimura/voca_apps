@@ -39,6 +39,7 @@
     <th>タイトル</th>
     <th>説明</th>
     <th>類似語</th>
+    <th>タグ</th>
     <th>アクション</th> <!-- Add a new column for actions -->
   </tr>
   <% @questions.each do |question| %>
@@ -50,6 +51,11 @@
         <%= similar_word.name %>
         <br>
       <% end %>
+      </td>
+      <td><% question.tags.each do |tag| %>
+        <%= tag.name %>
+        <br>
+        <% end %>
       </td>
       <td class="actions">
         <%= link_to "編集", edit_question_path(id: question.id) %>

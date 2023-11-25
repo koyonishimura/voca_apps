@@ -52,6 +52,7 @@ class QuestionsController < ApplicationController
     def new
         @question = Question.new
         @question.similar_words.build
+
     end
 
     def edit
@@ -69,7 +70,7 @@ class QuestionsController < ApplicationController
          end
         send_data(csv_data, filename: "単語帳リスト.csv")
         redirect_back(fallback_location: root_path)
-      end
+    end
       
 
     private
@@ -91,6 +92,6 @@ class QuestionsController < ApplicationController
     end
 
     def question_params
-      params.require(:question).permit(:title, :description, :name, similar_words_attributes: [:id, :name, :_destroy])
+      params.require(:question).permit(:title, :description, :name, similar_words_attributes: [:id, :name, :_destroy], tag_ids: [])
     end
 end
