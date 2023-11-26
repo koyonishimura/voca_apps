@@ -6,7 +6,7 @@ module SessionsHelper
       # セッションリプレイ攻撃から保護する
       # 詳しくは https://techracho.bpsinc.jp/hachi8833/2023_06_02/130443 を参照
       session[:session_token] = user.session_token
-end
+    end
     end
   
     # 永続的セッションのためにユーザーをデータベースに記憶する
@@ -71,6 +71,6 @@ end
       if user && user.authenticated?(:remember, cookies[:remember_token])
         log_in user
         @current_user = user
-      end
     end
+  end
 end

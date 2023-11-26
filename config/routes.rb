@@ -22,7 +22,9 @@ Rails.application.routes.draw do
   get 'question_test_answer', to: "work_books#question_test_answer"
   get 'ranking', to: "question_books#ranking"
   resources :question_tags
-  resources :tags
+  resources :tags do
+    get 'questions', on: :member
+  end
   resources :ranking
   #get "questions", to: "questions#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

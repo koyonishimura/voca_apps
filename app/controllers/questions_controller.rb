@@ -43,6 +43,24 @@ class QuestionsController < ApplicationController
         end
     end
 
+    def restart
+        @question_book.update(score: 0, is_propose: false)
+        @question_book.lists.update_all(answer_number: 0, is_answer: false, quiz_answer: 0) #全ての情報アップデートする
+        redirect_to question_test_path(@question_book.id, @question_book.lists.find_by(question_book_id: 1).id)
+    end
+    
+    def continue
+        if @question_book.score == 0
+            @question_book.lists.each do |list|
+                @question_book.update(score: @question_book.score += 1) if list.right_answer == list.answer_number
+            end
+        end
+    
+        @question_book.update(is_propose: true)
+        list = @question_book.lists.find_by(quiz_answer: 0)
+        redirect_to question_test_path(question_book_id: @question_book.id, id: list.id)
+    end
+
     def destroy
         Question.find(params[:id]).destroy
         flash[:success] = "Question deleted"

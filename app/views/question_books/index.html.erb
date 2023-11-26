@@ -1,16 +1,24 @@
-<h1>単語帳</h1>
-<%= link_to "新しく単語帳を始める", new_work_book_path %>
+<h1>ランキング</h1>
 
-<% @question_books.each do |question_book| %>
-    <div class="question-book">
-      <h2>Question Book: <%= question_book.id %></h2>
-      <ul>
-        <% question_book.work_books.each do |work_book| %>
-          <li>
-            <h3>Work Book ID: <%= work_book.id %></h3>
-          </li>
+<table class="ranking">
+  <tr>
+    <th style="width: 40%;">順位</th>
+    <th style="width: 30%;">名前</th>
+    <th style="width: 30%;">正答率</th>
+  </tr>
+  <% ranked_question_books = @question_books.order('score DESC NULLS LAST') %>
+  <% ranked_question_books.each_with_index do |question_book, index| %>
+
+    <tr>
+      <td><%= index + 1 %></td>
+      <td>
+        <% if question_book.user.present? %>
+          <%= question_book.user.name %>
+        <% else %>
+          ユーザー情報がありません
         <% end %>
-        <%= link_to "単語帳を始める", question_test_path(id:question_book.id,number: 1) %>
-      </ul>
-    </div>
-<% end %>
+      </td>
+      <td><%= (question_book.score.to_f / 10 * 100).round(2) %>%</td>
+    </tr>
+  <% end %>
+</table>

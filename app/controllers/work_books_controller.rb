@@ -1,6 +1,10 @@
 class WorkBooksController < ApplicationController
+    def index
+        @question_books = QuestionBook.all
+        # @user = current_user
+    end
     def new
-        @question_book = QuestionBook.new(user_id: @current_user.id) #  @user.id ログインしているユーザーのIDを指定
+        @question_book = QuestionBook.new(user_id: current_user.id) #  @user.id ログインしているユーザーのIDを指定
         if @question_book.save
             10.times do
                 @work_book = @question_book.work_books.build
@@ -16,7 +20,7 @@ class WorkBooksController < ApplicationController
                 @work_book.save
             end
 
-            redirect_to question_books_path, notice: '問題と設問が作成されました。'
+            redirect_to work_books_path, notice: '問題と設問が作成されました。'
         else
             render :new
         end
@@ -61,6 +65,24 @@ class WorkBooksController < ApplicationController
         end
     end
 
+    def restart
+        @question_book.update(score: 0, is_propose: false)
+        @question_book.lists.update_all(answer_number: 0, is_answer: false, quiz_answer: 0) #全ての情報アップデートする
+        redirect_to question_test_path(@question_book.id, @question_book.lists.find_by(question_book_id: 1).id)
+    end
+
+    def continue
+        if @question_book.score == 0
+            @question_book.lists.each do |list|
+                @question_book.update(score: @question_book.score += 1) if list.right_answer == list.answer_number
+            end
+        end
+
+        @question_book.update(is_propose: true)
+        list = @question_book.lists.find_by(quiz_answer: 0)
+        redirect_to question_test_path(question_book_id: @question_book.id, id: list.id)
+    end
+
     def question_test_user_answer
     end
 
@@ -69,3 +91,10 @@ class WorkBooksController < ApplicationController
         @work_books = @question_book.work_books
     end
 end
+
+
+
+
+
+
+
