@@ -3,11 +3,12 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <%= form_with(model: @tag) do |f| %>
-        <%= render 'shared/error_messages' %>
+      <%= render 'shared/error_messages' %>
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
 
       <%= f.submit "更新する", class: "btn btn-primary" %>
     <% end %>
+    <%= link_to "タグリストに", tags_path, id: "tag-list-btn" %>
   </div>
 </div>
