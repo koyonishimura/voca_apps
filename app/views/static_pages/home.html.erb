@@ -9,7 +9,9 @@
   <h1>Welcome to voca app</h1>
   <br>
   <br>
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+    <% unless logged_in? %>
+      <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+    <% end %>
 </div>
   </body>
 </html>
