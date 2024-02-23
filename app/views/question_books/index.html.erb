@@ -2,8 +2,8 @@
 
 <table class="ranking">
   <tr>
-    <th style="width: 40%;">順位</th>
-    <th style="width: 30%;">名前</th>
+    <th style="width: 15%;">順位</th>
+    <th style="width: 70%;">名前</th>
     <th style="width: 30%;">正答率</th>
   </tr>
   <% ranked_question_books = @question_books.order('score DESC NULLS LAST') %>

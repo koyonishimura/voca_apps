@@ -2,22 +2,24 @@
 <%= link_to "新規登録", new_tag_path %>
 <h2>タグ一覧</h2>
 
-<table border="1">
-  <tr>
-    <th>id</th>
-    <th>タグ</th>
-    <th>アクション</th>
-  </tr>
-  <% @tags.each do |tag| %>
+<div style=" margin: 0 auto; width: 50%;">
+  <table border="1">
     <tr>
-      <td><%= tag.id %></td>
-      <td>
-        <%= link_to tag.name, questions_tag_path(tag) %>
-      </td>
-      <td class="actions">
-        <%= link_to "編集", edit_tag_path(id: tag.id) %>
-        <%= link_to "削除", tag, data: {"turbo-method": :delete, turbo_confirm: "本当に削除しますか?" } %>
-      </td>
+      <th style="width: 10%;">id</th>
+      <th style="width: 70%;">タグ</th>
+      <th style="width: 20%;">アクション</th>
     </tr>
-  <% end %>
-</table>
+    <% @tags.each do |tag| %>
+      <tr>
+        <td><%= tag.id %></td>
+        <td>
+          <%= link_to tag.name, questions_tag_path(tag) %>
+        </td>
+        <td class="actions">
+          <%= link_to "編集", edit_tag_path(id: tag.id) %>
+          <%= link_to "削除", tag, data: {"turbo-method": :delete, turbo_confirm: "本当に削除しますか?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

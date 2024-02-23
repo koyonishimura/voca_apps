@@ -398,3 +398,30 @@ aside {
   background-color: #5cb85c;
   border-color: #4cae4c;
 }
+
+.tag-container {
+  white-space: nowrap;
+}
+
+.tag-container input[type="checkbox"] {
+  width: 3%;
+}
+
+.answer {
+  margin: 0 auto;
+}
+.ranking-result {
+  width: 50%;
+  margin: 0 auto;
+}
+.ranking {
+  width: 100%;
+}
+
+table {
+  font-size: 20px; /* テーブル内の文字サイズを変更 */
+}
+
+.main_menu div {
+  font-size: 20px; /* メインメニュー内のテキストサイズを変更 */
+}

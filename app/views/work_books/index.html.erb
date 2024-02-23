@@ -3,10 +3,10 @@
 <div class="form-wrap" id="small-page">
   <h1 class="name1">問題集</h1>
   <div class="in-form">
-    <%= link_to "新しく単語帳を始める", new_work_book_path %>
+    <%= link_to "問題集を作成する", new_work_book_path %>
     <% @question_books.each do |question_book| %>
       <div class="question-book">
-        <h2>Question Book: <%= question_book.id %><%= link_to " 単語帳を始める", question_test_path(id:question_book.id,number: 1) %></h2>
+        <h2>Question Book: <%= question_book.id %><%= link_to " 問題集を始める", question_test_path(id:question_book.id,number: 1) %></h2>
       </div>
     <% end %>
     <%= link_to "ランキングへ", question_books_path, id:"index-btn" %>
